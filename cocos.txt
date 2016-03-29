@@ -1,0 +1,7 @@
+getNumberOfRunningAction() = 액션이 실행되고있으면 1 안되고 있으면 0;
+
+1945
+
+비행기터치 
+
+프
