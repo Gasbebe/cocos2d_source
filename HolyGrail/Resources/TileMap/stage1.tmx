@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="2">
+ <tileset firstgid="1" name="metaset10way" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="10" columns="5">
+  <image source="metaset10way.png" width="166" height="67"/>
+  <tile id="0">
+   <properties>
+    <property name="Items" value="sword"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Monster" value="monster1"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Items" value="road"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Items" value="holy"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="11" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="48" columns="8">
+  <image source="tmw_desert_spacing.png" width="265" height="199"/>
+ </tileset>
+ <tileset firstgid="59" name="Holygrail" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
+ <tileset firstgid="59" name="Items" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="10" columns="5">
+  <image source="Items.png" width="166" height="67"/>
+ </tileset>
+ <layer name="Background" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzTYGBg0BjFo5jKGACqDRdx
+  </data>
+ </layer>
+ <layer name="MetaInfo" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgcgJGAPBON7GUmIM9CI3tZCciz0cheTgLyXFSyBwAfyAAp
+  </data>
+ </layer>
+ <layer name="Items" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgcwG6gHYAD2NDIXGsamTtYAADveAC2
+  </data>
+ </layer>
+ <objectgroup name="Object">
+  <object id="1" name="SpawnPoint" x="80" y="80"/>
+ </objectgroup>
+</map>

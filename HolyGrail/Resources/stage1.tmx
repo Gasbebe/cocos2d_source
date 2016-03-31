@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="2">
+ <tileset firstgid="1" name="metaset10way" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="10" columns="5">
+  <image source="metaset10way.png" width="166" height="67"/>
+  <tile id="0">
+   <properties>
+    <property name="Items" value="sword"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Monster" value="mon"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Monster" value="jelly"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Items" value="road"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Items" value="holy"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Monster" value="demon"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Monster" value="box"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Items" value="key"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="11" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="48" columns="8">
+  <image source="tmw_desert_spacing.png" width="265" height="199"/>
+ </tileset>
+ <tileset firstgid="59" name="Items" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="10" columns="5">
+  <image source="Items.png" width="166" height="67"/>
+ </tileset>
+ <layer name="Background" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJzTYGBg0BjFo5jKGACqDRdx
+  </data>
+ </layer>
+ <layer name="MetaInfo" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBg4GIgH3ASwMQCRgLyTDSyl5mAPAuJ9hLrFlYC9rJR0V5cbGwAPS2Qay8AD4oCKw==
+  </data>
+ </layer>
+ <layer name="Items" width="15" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgsGUgHzgQwMQCOxLlqWWvPQF5GxLtJdYt1gTsRZenxF5cbGwAPS2Qay8Asg0QKA==
+  </data>
+ </layer>
+ <objectgroup name="Object" visible="0">
+  <object id="1" name="SpawnPoint" x="80" y="80"/>
+ </objectgroup>
+</map>
