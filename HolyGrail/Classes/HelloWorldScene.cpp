@@ -1,5 +1,5 @@
 ﻿#include "HelloWorldScene.h"
-
+#include "stage2.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -20,22 +20,49 @@ bool HelloWorld::init()
 	}
 
 	/////////////////////////////
+	cache = SpriteFrameCache::getInstance();
+	cache->addSpriteFramesWithFile("Holygrail.plist");
+
 	winSize = Director::getInstance()->getWinSize();
 	tmap = TMXTiledMap::create("stage1.tmx");
 	background = tmap->getLayer("Background");
 	items = tmap->getLayer("Items");
 	metainfo = tmap->getLayer("MetaInfo");
+	monsterSpawn = tmap->getObjectGroup("MonsterSpawn");
 	metainfo->setVisible(false);
+
 	this->addChild(tmap, 0, 11);
 
-	TMXObjectGroup* objects = tmap->getObjectGroup("Object");
+	objects = tmap->getObjectGroup("Object");
+
 	ValueMap spawnPoint = objects->getObject("SpawnPoint");
 	int x = spawnPoint["x"].asInt();
 	int y = spawnPoint["y"].asInt();
-
+	log("%d,   %d", x, y);
 	HeroPosition = Vec2(x, y);
+
+	ValueMap monsterSpawnPoint = monsterSpawn->getObject("MonsterSpawn");
+	int a = monsterSpawnPoint["x"].asInt();
+	int b = monsterSpawnPoint["y"].asInt();
+	MonsterPosition = Vec2(a, b);
+
+	ValueMap monsterSpawnPoint1 = objects->getObject("HolySpawn");
+	int c = monsterSpawnPoint1["x"].asInt();
+	int d = monsterSpawnPoint1["y"].asInt();
+	DemonPosition = Vec2(c, d);
+
+	/*
+	while (true) {
+		int i = 0;
+		char str[100];
+		sprintf(str, "Monster");
+	}
+	*/
+
 	this->createHero();
-    
+	this->createMonster(MonsterPosition);
+	this->createDemon(DemonPosition);
+	schedule(schedule_selector(HelloWorld::StageCheck),0.2f);
     return true;
 }
 
@@ -56,9 +83,6 @@ void HelloWorld::onExit() {
 }
 void HelloWorld::createHero() {
 
-	auto cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile("Holygrail.plist");
-
 	Vector<SpriteFrame*> aniFrames;
 
 	char str[100] = { 0 };
@@ -70,13 +94,12 @@ void HelloWorld::createHero() {
 
 	Hero = Sprite::createWithSpriteFrameName("Hero01.png");
 	Hero->setPosition(HeroPosition);
-	this->addChild(Hero);
+	this->addChild(Hero, 1);
 
 	auto animation = Animation::createWithSpriteFrames(aniFrames, 0.5f);
 	auto animate = Animate::create(animation);
 	auto rep = RepeatForever::create(animate);
 	Hero->runAction(rep);
-
 }
 bool HelloWorld::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) {
 	return true;
@@ -128,14 +151,12 @@ void HelloWorld::setViewpointCenter(Vec2 position) {
 	Vec2 viewPoint = centerOfView - actualPosition;
 	this->setPosition(viewPoint);
 }
-
 Vec2 HelloWorld::tileCoordForPosition(Vec2 position) {
 	int x = position.x / tmap->getTileSize().width;
 	int y = ((tmap->getMapSize().height * tmap->getTileSize().height) - position.y) / tmap->getTileSize().height;
 
 	return Vec2(x, y);
 }
-
 void HelloWorld::setPlayerPosition(Vec2 position) {
 	Vec2 tileCoord = this->tileCoordForPosition(position);  //position의 타일코드번호를 가져온다
 
@@ -150,6 +171,7 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 				if (ps == SWORD) {
 					this->metainfo->removeTileAt(tileCoord);
 					items->removeTileAt(tileCoord);
+					this->removeChild(Monster);
 					ps = IDLE;
 				}
 				else {
@@ -172,6 +194,7 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 				if (ps == HOLY) {
 					this->metainfo->removeTileAt(tileCoord);
 					items->removeTileAt(tileCoord);
+					this->removeChild(Demon);
 					ps = IDLE;
 				}
 				else {
@@ -183,6 +206,7 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 				if (ps == KEY) {
 					this->metainfo->removeTileAt(tileCoord);
 					items->removeTileAt(tileCoord);
+					bClear = true;
 					ps = IDLE;
 				}
 				else {
@@ -221,4 +245,94 @@ void HelloWorld::setPlayerPosition(Vec2 position) {
 		}
 	}
 	Hero->setPosition(position);
+}
+void HelloWorld::StageCheck(float t) {
+	if (bClear && stage == 1) {
+		log("%d,   %d", Hero->getPosition().x, Hero->getPosition().y);
+		this->removeChild(tmap);
+		log("delete tmpa");
+		tmap = TMXTiledMap::create("stage2.tmx");
+		background = tmap->getLayer("Background");
+		items = tmap->getLayer("Items");
+		metainfo = tmap->getLayer("MetaInfo");
+		metainfo->setVisible(false);
+
+		this->addChild(tmap, 0, 11);
+
+		objects = tmap->getObjectGroup("Object");
+		ValueMap spawnPoint = objects->getObject("SpawnPoint");
+
+		int x = spawnPoint["x"].asInt();
+		int y = spawnPoint["y"].asInt();
+		log("%d,   %d", x, y);
+		this->removeChild(Hero);
+		HeroPosition = Vec2(x, y); // 80 240
+		createHero();
+		log("create Hero");
+		bClear = false;
+		stage++;
+	}
+	else if (bClear && stage == 2) {
+		log("%d,   %d", Hero->getPosition().x, Hero->getPosition().y);
+		this->removeChild(tmap);
+		log("delete tmpa");
+		tmap = TMXTiledMap::create("stage3.tmx");
+		background = tmap->getLayer("Background");
+		items = tmap->getLayer("Items");
+		metainfo = tmap->getLayer("MetaInfo");
+		metainfo->setVisible(false);
+
+		this->addChild(tmap, 0, 11);
+
+		objects = tmap->getObjectGroup("Object");
+		ValueMap spawnPoint = objects->getObject("SpawnPoint");
+
+		int x = spawnPoint["x"].asInt();
+		int y = spawnPoint["y"].asInt();
+		log("%d,   %d", x, y);
+		this->removeChild(Hero);
+		HeroPosition = Vec2(x, y); // 80 240
+		createHero();
+		log("create Hero");
+		bClear = false;
+	}
+}
+void HelloWorld::createDemon(Vec2 spawn) {
+
+	Vector<SpriteFrame*> monFrames;
+	char str[100] = { 0 };
+	for (int i = 1; i < 4; i++) {
+		sprintf(str, "Demon%d.png", i);
+		SpriteFrame* frame = cache->getSpriteFrameByName(str);
+		monFrames.pushBack(frame);
+	}
+	Demon = Sprite::createWithSpriteFrameName("Demon1.png");
+	Demon->setPosition(spawn);
+	this->addChild(Demon, 1);
+
+	auto animation = Animation::createWithSpriteFrames(monFrames, 0.5f);
+	auto animate = Animate::create(animation);
+	auto rep = RepeatForever::create(animate);
+	Demon->runAction(rep);
+}
+void HelloWorld::createMonster(Vec2 spawn) {
+
+	Vector<SpriteFrame*> monFrames;
+
+	char str[100] = { 0 };
+	for (int i = 1; i < 4; i++) {
+		sprintf(str, "Wolf%d.png", i);
+		SpriteFrame* frame = cache->getSpriteFrameByName(str);
+		monFrames.pushBack(frame);
+	}
+
+	Monster = Sprite::createWithSpriteFrameName("Wolf1.png");
+	Monster->setPosition(spawn);
+	this->addChild(Monster, 1);
+
+	auto animation = Animation::createWithSpriteFrames(monFrames, 0.5f);
+	auto animate = Animate::create(animation);
+	auto rep = RepeatForever::create(animate);
+
+	Monster->runAction(rep);
 }
