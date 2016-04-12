@@ -1,4 +1,5 @@
 ﻿#include "HelloWorldScene.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -23,6 +24,7 @@ bool HelloWorld::init()
     }
     
     /////////////////////////////
+	//메뉴 생성부분
 	winSize = Director::getInstance()->getWinSize();
 
 	auto bg = Sprite::create("Images/background.png");
@@ -70,9 +72,6 @@ bool HelloWorld::init()
     return true;
 }
 void HelloWorld::onPressPlay() {
-
+	auto pScene = GameScene::createScene();
+	Director::getInstance()->pushScene(pScene);
 }
-
-//
-// MainScene class
-//
