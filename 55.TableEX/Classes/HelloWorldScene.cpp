@@ -11,7 +11,7 @@ Scene* HelloWorld::createScene()
     // return the scene
     return scene;
 }
-
+//프로젝트 구성에 가서 c/c++ 일반에서 디렉토리 (엔진루트)를 추가한다
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
